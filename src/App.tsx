@@ -2,8 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import type { AuthChangeEvent, Session } from '@supabase/supabase-js'
 import { supabase, supabaseConfigured } from './lib/supabase'
-import { categories } from './types'
-import type { Clothing } from './types'
+import { categories, Clothing } from './types'
 import { Archive, Check, ChevronDown, Edit3, ImagePlus, LogOut, Plus, Search, Shirt, Sparkles, Trash2, X } from 'lucide-react'
 
 type FormState = Omit<Clothing, 'id' | 'created_at'>
@@ -92,7 +91,7 @@ function App() {
   return <div className="app-shell">
     <header className="topbar">
       <div className="brand"><div className="brand-mark"><Shirt size={20} /></div><div><strong>Meu Guarda-Roupa</strong><span>Seu armário, organizado.</span></div></div>
-      <div className="top-actions"><span className="user-email">{session.user.email}</span><button className="icon-btn" onClick={() => supabase.auth.signOut()} title="Sair"><LogOut size={18} /></button></div>
+      <div className="top-actions"><span className="user-email">{session.user.email}</span><button className="icon-btn" onClick={() => { if (supabase) void supabase.auth.signOut() }} title="Sair"><LogOut size={18} /></button></div>
     </header>
 
     <main className="content">
@@ -124,7 +123,7 @@ function App() {
   </div>
 }
 
-function AuthScreen(props: any) { return <div className="auth-screen"><div className="auth-card"><div className="brand auth-brand"><div className="brand-mark"><Shirt size={20} /></div><div><strong>Meu Guarda-Roupa</strong><span>Organize suas peças.</span></div></div><div className="auth-copy"><h1>{props.isRegister ? 'Crie seu guarda-roupa.' : 'Bem-vindo de volta.'}</h1><p>{props.isRegister ? 'Um espaço simples para catalogar tudo o que você tem.' : 'Entre para acessar suas peças e manter tudo organizado.'}</p></div><form onSubmit={props.onSubmit}><label>E-mail<input type="email" required value={props.email} onChange={e => props.setEmail(e.target.value)} placeholder="voce@email.com" /></label><label>Senha<input type="password" required minLength={6} value={props.password} onChange={e => props.setPassword(e.target.value)} placeholder="Mínimo de 6 caracteres" /></label>{props.error && <div className="error">{props.error}</div>}<button className="primary-btn full" type="submit">{props.isRegister ? 'Criar conta' : 'Entrar'}</button></form><button className="switch-auth" onClick={() => { props.setIsRegister(!props.isRegister); }} >{props.isRegister ? 'Já tenho uma conta' : 'Ainda não tenho conta'}</button></div></div> }
+function AuthScreen(props: any) { return <div className="auth-screen"><div className="auth-card"><div className="brand auth-brand"><div className="brand-mark"><Shirt size={20} /></div><div><strong>Meu Guarda-Roupa</strong><span>Organize suas peças.</span></div></div><div className="auth-copy"><h1>{props.isRegister ? 'Crie seu guarda-roupa.' : 'Bem-vindo de volta.'}</h1><p>{props.isRegister ? 'Um espaço simples para catalogar tudo o que você tem.' : 'Entre para acessar suas peças e manter tudo organizado.'}</p></div><form onSubmit={props.onSubmit}><label>E-mail<input type="email" required value={props.email} onChange={e => props.setEmail(e.target.value)} placeholder="voce@email.com" /></label><label>Senha<input type="password" required minLength={6} value={props.password} onChange={e => props.setPassword(e.target.value)} placeholder="Mínimo de 6 caracteres" /></label>{props.error && <div className="error">{props.error}</div>}<button className="primary-btn full" type="submit">{props.isRegister ? 'Criar conta' : 'Entrar'}</button></form><button className="switch-auth" onClick={() => props.setIsRegister(!props.isRegister)} >{props.isRegister ? 'Já tenho uma conta' : 'Ainda não tenho conta'}</button></div></div> }
 
 function SetupScreen() { return <div className="center-screen"><div className="setup"><div className="brand-mark"><Shirt size={22} /></div><h1>Quase pronto.</h1><p>Configure as variáveis do Supabase para conectar o aplicativo ao seu banco de dados.</p><code>VITE_SUPABASE_URL<br />VITE_SUPABASE_ANON_KEY</code><p className="muted">Veja o <strong>.env.example</strong> e o <strong>README.md</strong> para os próximos passos.</p></div></div> }
 
