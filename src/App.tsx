@@ -1,7 +1,9 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react'
-import { AuthChangeEvent, Session } from '@supabase/supabase-js'
+import { useEffect, useMemo, useState } from 'react'
+import type { FormEvent } from 'react'
+import type { AuthChangeEvent, Session } from '@supabase/supabase-js'
 import { supabase, supabaseConfigured } from './lib/supabase'
-import { categories, Clothing } from './types'
+import { categories } from './types'
+import type { Clothing } from './types'
 import { Archive, Check, ChevronDown, Edit3, ImagePlus, LogOut, Plus, Search, Shirt, Sparkles, Trash2, X } from 'lucide-react'
 
 type FormState = Omit<Clothing, 'id' | 'created_at'>
